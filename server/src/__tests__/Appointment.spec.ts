@@ -1,8 +1,7 @@
 import request from 'supertest';
 import { isUuid } from 'uuidv4';
-import { startOfHour, isEqual } from 'date-fns';
+import { startOfHour } from 'date-fns';
 import app from '../app';
-import appointmentsRouter from '../routes/appointments.routes';
 
 describe('Appointment', () => {
   it('should be able to create a new appointment', async () => {
@@ -32,5 +31,20 @@ describe('Appointment', () => {
     });
 
     expect(response.status).toBe(400);
+  });
+
+  it('should return a appointment list', async () => {
+    const response = await request(app).get('/appointments');
+
+    expect(response.status).toBe(200);
+
+    const responseParsed = JSON.parse(response.text);
+    expect(responseParsed).toEqual(
+      expect.arrayContaining([
+        /* expect.objectContaining({
+          provider: expect.any(String),
+        }), */
+      ]),
+    );
   });
 });
