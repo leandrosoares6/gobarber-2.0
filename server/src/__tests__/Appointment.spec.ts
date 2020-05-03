@@ -1,50 +1,64 @@
 import request from 'supertest';
-import { isUuid } from 'uuidv4';
-import { startOfHour } from 'date-fns';
+import { Connection, getRepository, getConnection } from 'typeorm';
+import createTypeormConnection from '../database';
+
+import Appointment from '../models/Appointment';
+
 import app from '../app';
 
+let connection: Connection;
+const date = new Date();
+
 describe('Appointment', () => {
-  it('should be able to create a new appointment', async () => {
-    const date = new Date();
-    const parsedDate = startOfHour(date);
+  beforeAll(async () => {
+    await createTypeormConnection();
+    connection = getConnection();
+    await connection.runMigrations();
+  });
+
+  beforeEach(async () => {
+    await connection.query('DELETE FROM appointments');
+  });
+
+  afterAll(async () => {
+    await connection.close();
+  });
+
+  it('should be able to create new appointment', async () => {
+    const appointmentsRepository = getRepository(Appointment);
 
     const response = await request(app).post('/appointments').send({
-      provider: 'Leandro',
+      provider: 'Leandro Neves',
       date: date.toISOString(),
     });
 
-    expect(isUuid(response.body.id)).toBe(true);
-
-    expect(response.body).toMatchObject({
-      provider: 'Leandro',
-      date: parsedDate.toISOString(),
-    });
-  });
-
-  it('should not permitted create appointments at the same time', async () => {
-    const date = new Date();
-    const parsedDate = startOfHour(date);
-
-    const response = await request(app).post('/appointments').send({
-      provider: 'Leandro',
-      date: parsedDate.toISOString(),
+    const appointment = await appointmentsRepository.findOne({
+      where: {
+        provider: 'Leandro Neves',
+      },
     });
 
-    expect(response.status).toBe(400);
+    expect(appointment).toBeTruthy();
+
+    expect(response.body).toMatchObject(
+      expect.objectContaining({
+        id: expect.any(String),
+      }),
+    );
   });
 
-  it('should return a appointment list', async () => {
+  it('should be able to list appointments', async () => {
+    await request(app).post('/appointments').send({
+      provider: 'Leandro Neves',
+      date: date.toISOString(),
+    });
+
     const response = await request(app).get('/appointments');
 
-    expect(response.status).toBe(200);
-
-    const responseParsed = JSON.parse(response.text);
-    expect(responseParsed).toEqual(
-      expect.arrayContaining([
-        /* expect.objectContaining({
-          provider: expect.any(String),
-        }), */
-      ]),
-    );
+    expect(response.body).toEqual([
+      expect.objectContaining({
+        id: expect.any(String),
+      }),
+    ]);
   });
 });
