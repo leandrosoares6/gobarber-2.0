@@ -2,10 +2,10 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 
-import routes from './routes';
-import uploadConfig from './config/upload';
-import createTypeormConnections from './database';
-import AppError from './errors/AppError';
+import routes from '@shared/infra/http/routes';
+import uploadConfig from '@config/upload';
+import createTypeormConnections from '@shared/infra/typeorm';
+import AppError from '@shared/errors/AppError';
 
 const app = express();
 

@@ -5,9 +5,10 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev:server": "NODE_ENV=default ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts",
+    "dev:server": "NODE_ENV=default ts-node-dev -r tsconfig-paths/register --inspect --transpileOnly --ignore-watch node_modules src/shared/infra/http/server.ts",
+    "start": "ts-node src/shared/infra/http/server.ts",
     "test": "NODE_ENV=test jest --silent=false --detectOpenHandles",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -41,6 +42,7 @@
     "supertest": "^4.0.2",
     "ts-jest": "^25.4.0",
     "ts-node-dev": "^1.0.0-pre.44",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.3"
   }
 }
