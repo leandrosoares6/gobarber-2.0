@@ -38,7 +38,26 @@ describe('AuthenticateUser', () => {
     expect(response.user).toEqual(user);
   });
 
-  it('should not be able to authenticate user with invalid password', async () => {
+  it('should not be able to authenticate user with not exists', async () => {
+    const fakeUsersRepository = new FakeUsersRepository();
+    const fakeHashProvider = new FakeHashProvider();
+    const fakeTokenProvider = new FakeTokenProvider();
+
+    const authenticateUser = new AuthenticateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+      fakeTokenProvider,
+    );
+
+    expect(
+      authenticateUser.execute({
+        email: 'leandro@rocketseat.com',
+        password: '123123',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to authenticate with wrong password', async () => {
     const fakeUsersRepository = new FakeUsersRepository();
     const fakeHashProvider = new FakeHashProvider();
     const fakeTokenProvider = new FakeTokenProvider();
@@ -63,35 +82,6 @@ describe('AuthenticateUser', () => {
       authenticateUser.execute({
         email: 'leandro@rocketseat.com',
         password: '123123',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not be able to authenticate user with invalid email', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-    const fakeTokenProvider = new FakeTokenProvider();
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-    const authenticateUser = new AuthenticateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-      fakeTokenProvider,
-    );
-
-    await createUser.execute({
-      name: 'Leandro',
-      email: 'leandro@rocketseat.com',
-      password: '123456',
-    });
-
-    expect(
-      authenticateUser.execute({
-        email: 'leandro1@rocketseat.com',
-        password: '123456',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
