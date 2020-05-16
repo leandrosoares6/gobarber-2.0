@@ -20,14 +20,15 @@ describe('ListProviderMonthAvailability', () => {
     Promise.all(
       schedule.map(hour =>
         fakeAppointmentsRepository.create({
-          provider_id: 'user',
+          user_id: 'user',
+          provider_id: 'provider',
           date: new Date(2020, 4, 20, hour, 0, 0),
         }),
       ),
     );
 
     const availability = await listProviderMonthAvailability.execute({
-      provider_id: 'user',
+      provider_id: 'provider',
       year: 2020,
       month: 5,
     });
