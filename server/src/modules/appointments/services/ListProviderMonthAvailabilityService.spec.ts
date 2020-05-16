@@ -13,9 +13,9 @@ describe('ListProviderMonthAvailability', () => {
   });
 
   it('should be able to list days of month availability from provider', async () => {
-    const schedule = Array.from({ length: 10 }, (_, i) => i + 1).map(
-      value => value + 7,
-    );
+    const hourStart = 8;
+
+    const schedule = Array.from({ length: 10 }, (_, i) => i + hourStart);
 
     Promise.all(
       schedule.map(hour =>
