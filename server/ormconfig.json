@@ -13,18 +13,11 @@
   }
 },
 {
-  "name": "test",
-  "type": "postgres",
+  "name": "mongo",
+  "type": "mongodb",
   "host": "localhost",
-  "port": 5432,
-  "username": "postgres",
-  "password": "docker",
-  "database": "gostack11_gobarber_test",
-  "logging": false,
-  "dropSchema": true,
-  "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
-  "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
-  "cli": {
-    "migrationsDir": "./src/shared/infra/typeorm/migrations"
-  }
+  "port": 27017,
+  "database": "gostack11_gobarber",
+  "useUnifiedTopology": true,
+  "entities": ["./src/modules/**/infra/typeorm/schemas/*.ts"]
 }]
