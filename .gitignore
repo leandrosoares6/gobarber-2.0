@@ -2,6 +2,8 @@ server/node_modules
 server/tmp/*
 !server/tmp/.gitkeep
 server/src/__tests__/coverage
+server/.env
+server/ormconfig.json
 server/yarn.lock
 
 web/node_modules
