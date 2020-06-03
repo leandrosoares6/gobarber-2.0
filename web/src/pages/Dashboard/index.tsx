@@ -1,4 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { isToday, format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
@@ -18,9 +21,33 @@ import {
 
 import logoImg from '../../assets/logo.svg';
 import { useAuth } from '../../hooks/auth';
+import api from '../../services/api';
+
+interface MonthAvailabilityItem {
+  day: number;
+  available: boolean;
+}
+
+interface Appointment {
+  id: string;
+  date: string;
+  user: {
+    name: string;
+    avatar_url: string;
+  };
+}
 
 const Dashboard: React.FC = () => {
+  const { user, signOut } = useAuth();
+
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  const [monthAvailability, setMonthAvailability] = useState<
+    MonthAvailabilityItem[]
+  >([]);
+
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available) {
@@ -28,7 +55,59 @@ const Dashboard: React.FC = () => {
     }
   }, []);
 
-  const { user, signOut } = useAuth();
+  const handleMonthChange = useCallback((month: Date) => {
+    setCurrentMonth(month);
+  }, []);
+
+  useEffect(() => {
+    api
+      .get(`/providers/${user.id}/month-availability`, {
+        params: {
+          year: currentMonth.getFullYear(),
+          month: currentMonth.getMonth() + 1,
+        },
+      })
+      .then((response) => {
+        setMonthAvailability(response.data);
+      });
+  }, [currentMonth, user.id]);
+
+  useEffect(() => {
+    api
+      .get('/appointments/me', {
+        params: {
+          year: selectedDate.getFullYear(),
+          month: selectedDate.getMonth() + 1,
+          day: selectedDate.getDate(),
+        },
+      })
+      .then((response) => {
+        setAppointments(response.data);
+        console.log(response.data);
+      });
+  }, [selectedDate]);
+
+  const disabledDays = useMemo(() => {
+    const dates = monthAvailability
+      .filter((monthDay) => monthDay.available === false)
+      .map((monthDay) => {
+        const year = currentMonth.getFullYear();
+        const month = currentMonth.getMonth();
+        return new Date(year, month, monthDay.day);
+      });
+
+    return dates;
+  }, [currentMonth, monthAvailability]);
+
+  const selectedDateAsText = useMemo(() => {
+    return format(selectedDate, "'Dia' dd 'de' MMMM", {
+      locale: ptBR,
+    });
+  }, [selectedDate]);
+
+  const selectedWeekDay = useMemo(() => {
+    return format(selectedDate, 'cccc', { locale: ptBR });
+  }, [selectedDate]);
 
   return (
     <Container>
@@ -54,13 +133,13 @@ const Dashboard: React.FC = () => {
         <Schedule>
           <h1>Horários agendados</h1>
           <p>
-            <span>Hoje</span>
-            <span>Dia 06</span>
-            <span>Segunda-feira</span>
+            {isToday(selectedDate) && <span>Hoje</span>}
+            <span>{selectedDateAsText}</span>
+            <span>{selectedWeekDay}</span>
           </p>
 
           <NextAppointment>
-            <strong>Atendimento à seguir</strong>
+            <strong>Atendimento a seguir</strong>
             <div>
               <img
                 src="https://avatars2.githubusercontent.com/u/6878933?s=460&u=3d4178bd0331f6e4770865095a182b741089f80c&v=4"
@@ -135,12 +214,13 @@ const Dashboard: React.FC = () => {
           <DayPicker
             weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
             fromMonth={new Date()}
-            disabledDays={[{ daysOfWeek: [0, 6] }]}
+            disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
             modifiers={{
               available: { daysOfWeek: [1, 2, 3, 4, 5] },
             }}
             selectedDays={selectedDate}
             onDayClick={handleDateChange}
+            onMonthChange={handleMonthChange}
             months={[
               'Janeiro',
               'Fevereiro',
