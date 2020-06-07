@@ -1,4 +1,3 @@
-
 <h1 align="center">
     <img alt="GoBarber 2.0" src="https://res.cloudinary.com/dqiqmpz8u/image/upload/c_scale,w_312/v1591458497/gobarber-2.0_opjvy7.png" />
     <br>
@@ -47,42 +46,46 @@
 ### Backend
 
 #### Environment packages:
--  [Node.js](https://nodejs.org)
--  [Dotenv](https://www.npmjs.com/package/dotenv)
+
+-   [Node.js](https://nodejs.org)
+-   [Dotenv](https://www.npmjs.com/package/dotenv)
 
 #### Infrastructure packages:
--  [Express](https://expressjs.com/)
--  [TypeORM](https://typeorm.io/#/)
--  [MongoDB](https://www.mongodb.com/)
--  [Redis](https://redis.io/)
--  [aws-sdk](https://aws.amazon.com/sdk-for-node-js/)
+
+-   [Express](https://expressjs.com/)
+-   [TypeORM](https://typeorm.io/#/)
+-   [MongoDB](https://www.mongodb.com/)
+-   [Redis](https://redis.io/)
+-   [aws-sdk](https://aws.amazon.com/sdk-for-node-js/)
 
 #### Test packages:
--  [Jest](https://jestjs.io/)
--  [Supertest](https://github.com/visionmedia/supertest)
+
+-   [Jest](https://jestjs.io/)
+-   [Supertest](https://github.com/visionmedia/supertest)
 
 #### Security packages:
--  [Cors](https://www.npmjs.com/package/cors)
-- [jsonwebtoken](https://jwt.io/)
-- [bcryptjs](https://www.npmjs.com/package/bcryptjs)
-- [rate-limiter-flexible](https://www.npmjs.com/package/rate-limiter-flexible)
+
+-   [Cors](https://www.npmjs.com/package/cors)
+-   [jsonwebtoken](https://jwt.io/)
+-   [bcryptjs](https://www.npmjs.com/package/bcryptjs)
+-   [rate-limiter-flexible](https://www.npmjs.com/package/rate-limiter-flexible)
 
 #### Code formatter, style guide and dependency injection:
--  [Prettier](https://prettier.io/)
--  [Eslint](https://eslint.org/)
--  [Tsyringe](https://github.com/microsoft/tsyringe)
+
+-   [Prettier](https://prettier.io/)
+-   [Eslint](https://eslint.org/)
+-   [Tsyringe](https://github.com/microsoft/tsyringe)
 
 ### Frontend web
--  [React](https://reactjs.org/)
--  [Context API](https://pt-br.reactjs.org/docs/context.html)
--  [React Router DOM](https://reacttraining.com/react-router/web/guides/quick-start)
--  [react-day-picker](https://react-day-picker.js.org/)
--  [React Icons](https://react-icons.github.io/react-icons/)
--  [Polished](https://polished.js.org/)
--  [styled-components](https://www.styled-components.com/)
-- And more..
 
-
+-   [React](https://reactjs.org/)
+-   [Context API](https://pt-br.reactjs.org/docs/context.html)
+-   [React Router DOM](https://reacttraining.com/react-router/web/guides/quick-start)
+-   [react-day-picker](https://react-day-picker.js.org/)
+-   [React Icons](https://react-icons.github.io/react-icons/)
+-   [Polished](https://polished.js.org/)
+-   [styled-components](https://www.styled-components.com/)
+-   And more..
 
 ## :information_source: How To Use
 
@@ -113,18 +116,19 @@ $ yarn start
 ```
 
 ## :memo: License
+
 This project is under the MIT license. See the [LICENSE](https://github.com/leandrosoares6/gobarber-2.0/blob/master/LICENSE) for more information.
 
 ## Author
 
 👤 **Leandro Neves**
 
-* Website: gitshowcase.com/leandrosoares6
-* Github: [@leandrosoares6](https://github.com/leandrosoares6)
-* LinkedIn: [@leandrosoares6](https://linkedin.com/in/leandrosoares6)
+-   Website: gitshowcase.com/leandrosoares6
+-   Github: [@leandrosoares6](https://github.com/leandrosoares6)
+-   LinkedIn: [@leandrosoares6](https://linkedin.com/in/leandrosoares6)
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
 
----
+* * *
