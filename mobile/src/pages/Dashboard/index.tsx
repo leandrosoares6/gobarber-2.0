@@ -66,6 +66,7 @@ const Dashboard: React.FC = () => {
       </Header>
 
       <ProvidersList
+        showsVerticalScrollIndicator={false}
         data={providers}
         keyExtractor={(provider) => provider.id}
         ListHeaderComponent={
