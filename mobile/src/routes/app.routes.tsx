@@ -18,7 +18,7 @@ const AppRoutes: React.FC = () => (
       },
     }}
   >
-    <App.Screen name="SignIn" component={Dashboard} />
+    <App.Screen name="Dashboard" component={Dashboard} />
     <App.Screen name="CreateAppointment" component={CreateAppointment} />
     <App.Screen name="AppointmentCreated" component={AppointmentCreated} />
 
