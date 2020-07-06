@@ -39,7 +39,12 @@
 <h3>Web app demo</h3>
   <img alt="Web app Demo" src="https://res.cloudinary.com/dqiqmpz8u/image/upload/v1591462481/gobarber-2.0/Gifs/gobarber-2.0-web_mqh7kc.gif">
 </p>
-<h3>Mobile app in construction...</h3>
+
+<p align="center">
+<br/>
+<h3>Mobile app demo</h3>
+  <img alt="Mobile app Demo" src="https://res.cloudinary.com/dqiqmpz8u/image/upload/v1593996413/gobarber-2.0/Gifs/gobarber-2.0-mobile_j2ic5o.gif">
+</p>
 
 ## :rocket: Technologies
 
