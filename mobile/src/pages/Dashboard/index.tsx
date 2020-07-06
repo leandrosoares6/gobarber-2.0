@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
 
 import { useNavigation } from '@react-navigation/native';
+import { Alert } from 'react-native';
 import { useAuth } from '../../hooks/auth';
 
 import api from '../../services/api';
@@ -11,9 +12,11 @@ import {
   Container,
   Header,
   HeaderTitle,
+  HeaderContent,
   UserName,
   ProfileButton,
   UserAvatar,
+  LoggoutButton,
   ProvidersList,
   ProvidersListTitle,
   ProviderContainer,
@@ -33,13 +36,23 @@ export interface Provider {
 const Dashboard: React.FC = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
 
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   const { navigate } = useNavigation();
 
   useEffect(() => {
-    api.get('providers').then((response) => setProviders(response.data));
-  }, []);
+    api
+      .get('providers')
+      .then((response) => setProviders(response.data))
+      .catch((error: Response) => {
+        if (error.status === 401) {
+          Alert.alert('Sessão expirada!', 'Faça login novamente na aplicação');
+          return signOut();
+        }
+
+        return Alert.alert('Houve um erro na rede.');
+      });
+  }, [signOut]);
 
   const navigateToProfile = useCallback(() => {
     navigate('Profile');
@@ -52,6 +65,10 @@ const Dashboard: React.FC = () => {
     [navigate],
   );
 
+  const handleSignOut = useCallback(() => {
+    signOut();
+  }, [signOut]);
+
   return (
     <Container>
       <Header>
@@ -59,10 +76,20 @@ const Dashboard: React.FC = () => {
           Bem vindo, {'\n'}
           <UserName>{user.name}</UserName>
         </HeaderTitle>
+        <HeaderContent>
+          <ProfileButton onPress={navigateToProfile}>
+            <UserAvatar source={{ uri: user.avatar_url }} />
+          </ProfileButton>
 
-        <ProfileButton onPress={navigateToProfile}>
-          <UserAvatar source={{ uri: user.avatar_url }} />
-        </ProfileButton>
+          <LoggoutButton onPress={handleSignOut}>
+            <Icon
+              name="log-out"
+              size={24}
+              color="#FF9000"
+              onPress={handleSignOut}
+            />
+          </LoggoutButton>
+        </HeaderContent>
       </Header>
 
       <ProvidersList
